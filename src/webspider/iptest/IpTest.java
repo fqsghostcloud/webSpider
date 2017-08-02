@@ -32,7 +32,7 @@ public class IpTest {
         this.proxyList = proxyList;
         for (Map<String, String> proxy : proxyList) {
             this.ip = proxy.get("ip");
-            setPort(proxy.get("port"));
+            setPort(proxy.get("port"));//端口超过65535之后的处理？？？？？？？？？？？？？？？？
             ipDownloadTest();
         }
     }
@@ -56,7 +56,7 @@ public class IpTest {
         RequestConfig requestConfigTimeout = RequestConfig.custom().setCircularRedirectsAllowed(config.redirecAllowed)
                 .setSocketTimeout(config.socketTimeout).setConnectTimeout(config.connectTimeout).setProxy(proxy).build();
 
-        DownloadPage downloadPage = new DownloadPage(testUrl, config.userAgent, requestConfigTimeout);
+        DownloadPage downloadPage = new DownloadPage(testUrl, config.headers, requestConfigTimeout);
 
         if (downloadPage.DownloadByGetMethod() != null) {
 //            status = true;

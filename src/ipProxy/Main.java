@@ -14,10 +14,10 @@ public class Main {
 //		IpTest ipTest = new IpTest("46.101.78.9","8080");
 
 
-		IpSpider ipSpider = new IpSpider(100);
+		IpSpider ipSpider = new IpSpider(200 );
 		ipSpider.main();
-		/*XiCiDaiLiSpiser xiCiDaiLiSpiser = new XiCiDaiLiSpiser("http://www.xicidaili.com/nn/2");
-		xiCiDaiLiSpiser.main();
+/*		XiCiDaiLiSpiser xiCiDaiLiSpiser = new XiCiDaiLiSpiser("http://www.xicidaili.com/nn");
+		xiCiDaiLiSpiser.main();*/
 		
 		// print result info*/
 		IpTest.printresult();

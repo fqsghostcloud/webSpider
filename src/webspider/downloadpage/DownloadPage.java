@@ -3,7 +3,10 @@ package webspider.downloadpage;
 import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
@@ -24,13 +27,13 @@ public class DownloadPage {
 	private String htmlEntity;
 	private int statusCode;
 	private RequestConfig requestConfigTimeout;
-	private String userAgent;
+	private Map<String, String> headers;
 	
 	private CloseableHttpClient httpClient = HttpClients.createDefault();
 	
-	public DownloadPage(String currentUrl, String userAgent, RequestConfig requestConfigTimeout) {
+	public DownloadPage(String currentUrl, Map<String,String> headers, RequestConfig requestConfigTimeout) {
 		this.currentUrl = currentUrl;
-		this.userAgent = userAgent;
+		this.headers = headers;
 		this.requestConfigTimeout = requestConfigTimeout;
 	}
 
@@ -44,8 +47,13 @@ public class DownloadPage {
 	public String DownloadByGetMethod() {
 
 		HttpGet request = new HttpGet(currentUrl);
-		request.addHeader("User-Agent", userAgent);
 		request.setConfig(requestConfigTimeout);
+		//设置http header
+		if(headers!=null && headers.size()>0){
+			for(String key: headers.keySet()){
+				request.addHeader(key, headers.get(key));
+			}
+		}
 
 		try {
 			CloseableHttpResponse response = httpClient.execute(request);

@@ -29,10 +29,10 @@ public class IpSpider {
     public void main() {
         Config config = new Config();
         RequestConfig requestConfigTimeout = RequestConfig.custom().setCircularRedirectsAllowed(config.redirecAllowed)
-                .setSocketTimeout(config.socketTimeout).setConnectTimeout(config.connectTimeout).build();
+                .setConnectionRequestTimeout(config.connectTimeout).setConnectTimeout(config.connectTimeout).build();
         String requestUrl = Url + ipSum;
 
-        DownloadPage downloadPage = new DownloadPage(requestUrl, config.userAgent, requestConfigTimeout);
+        DownloadPage downloadPage = new DownloadPage(requestUrl, config.headers, requestConfigTimeout);
 
         String pageString = downloadPage.DownloadByGetMethod();
 

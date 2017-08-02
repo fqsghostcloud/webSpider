@@ -19,7 +19,7 @@ public class Test {
 			String ss = "http://i.sporttery.cn/api/fb_match_info/get_odds/?f_callback=get_sporttery_odds&mid=" + mid[i]
 					+ "&time=" + System.currentTimeMillis();
 			
-			DownloadPage downloadPage = new DownloadPage(ss, config.userAgent, requestConfigTimeout);
+			DownloadPage downloadPage = new DownloadPage(ss, config.headers, requestConfigTimeout);
 
 			pageContent = downloadPage.DownloadByGetMethod();
 			System.out.println("******************** Current Num is:" + i + "******************");

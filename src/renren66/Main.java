@@ -30,7 +30,7 @@ public class Main {
 
             String pageContent = null;
             String currentUrl = rootQueue.getUnvisitedUrl();
-            DownloadPage downloadPage = new DownloadPage(currentUrl, config.userAgent, requestConfigTimeout);
+            DownloadPage downloadPage = new DownloadPage(currentUrl, config.headers, requestConfigTimeout);
 
             pageContent = downloadPage.DownloadByGetMethod(); // download movie-item page
 
@@ -50,7 +50,7 @@ public class Main {
 
                     String moviePageContent = null;
                     String currentMovieUrl = movieQueue.getUnvisitedUrl();
-                    DownloadPage downloadMoviePage = new DownloadPage(currentMovieUrl, config.userAgent, requestConfigTimeout);
+                    DownloadPage downloadMoviePage = new DownloadPage(currentMovieUrl, config.headers, requestConfigTimeout);
                     moviePageContent = downloadMoviePage.DownloadByGetMethod(); // download movie page
 
                     if (moviePageContent != null) {

@@ -28,7 +28,7 @@ public class XiCiDaiLiSpiser {
                 .setSocketTimeout(config.socketTimeout).setConnectTimeout(config.connectTimeout).build();
 
 
-        DownloadPage downloadPage = new DownloadPage(url, config.userAgent, requestConfigTimeout);
+        DownloadPage downloadPage = new DownloadPage(url, config.headers, requestConfigTimeout);
         htmlContent = downloadPage.DownloadByGetMethod();
         System.out.println("\n**Current Url is: " + url);
 
