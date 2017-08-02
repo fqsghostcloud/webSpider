@@ -1,6 +1,6 @@
 package ipProxy;
 
-
+import ipProxy.sixsixipspider.IpSpider;
 import ipProxy.xicidaili.XiCiDaiLiSpiser;
 import webspider.iptest.IpTest;
 
@@ -11,13 +11,15 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-/*		IpSpider ipSpider = new IpSpider(50);
-		ipSpider.main();*/
-		
-		XiCiDaiLiSpiser xiCiDaiLiSpiser = new XiCiDaiLiSpiser("http://www.xicidaili.com/nn");
+//		IpTest ipTest = new IpTest("46.101.78.9","8080");
+
+
+		IpSpider ipSpider = new IpSpider(100);
+		ipSpider.main();
+		/*XiCiDaiLiSpiser xiCiDaiLiSpiser = new XiCiDaiLiSpiser("http://www.xicidaili.com/nn/2");
 		xiCiDaiLiSpiser.main();
 		
-		// print result info
+		// print result info*/
 		IpTest.printresult();
 	}
 

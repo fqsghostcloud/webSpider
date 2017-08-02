@@ -18,6 +18,7 @@ public class IpTest {
     private String ip;
     private int port;
     private String testUrl = "http://www.renren66.com/";
+//    private  String testUrl = "http://www.baidu.com";
     private List<Map<String, String>> proxyList;
 
 

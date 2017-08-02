@@ -84,12 +84,13 @@ public class DownloadPage {
 			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			// TODO: handle exception
-			e.printStackTrace();
+//			e.printStackTrace();
 			System.out.println("\n---------------Download Page Fail, The ContentString Is Null-------------\n");
 		} catch (IOException e) {
 			// TODO: handle exception
 			e.printStackTrace();
-		} finally {
+		}
+		finally {
 			request.releaseConnection();
 		}
 		
