@@ -1,8 +1,8 @@
 package webspider.iptest;
 
 import ipProxy.Config;
-import ipProxy.Main;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.config.RequestConfig;
 import webspider.downloadpage.DownloadPage;
 
@@ -20,7 +20,8 @@ public class IpTest {
     private String testUrl = "http://www.renren66.com/";
     //    private  String testUrl = "http://www.baidu.com";
     private List<Map<String, String>> proxyList;
-
+    public static double ipCount;
+    public static double useableIp;
 
     public IpTest(String ip, String port) {
         this.ip = ip;
@@ -44,25 +45,23 @@ public class IpTest {
 
     public void ipDownloadTest() {
 //        boolean status = false;
-        Main.SumOfIp++;
+        ipCount++;
         //爬取的Ip或者Port可能格式错误
         try {
             HttpHost proxy = new HttpHost(ip, port);
-            printInfo();
             Config config = new Config();
             RequestConfig requestConfigTimeout = RequestConfig.custom().setCircularRedirectsAllowed(config.redirecAllowed)
-                    .setSocketTimeout(config.socketTimeout).setConnectTimeout(config.connectTimeout).setProxy(proxy).build();
+                    .setConnectTimeout(config.connectTimeout).setProxy(proxy).build();
 
             DownloadPage downloadPage = new DownloadPage(testUrl, config.headers, requestConfigTimeout);
-
-            if (downloadPage.DownloadByGetMethod() != null) {
-                Main.usebleSumOfIp++;
+            downloadPage.DownloadByGetMethod();
+            if (downloadPage.statusCode == HttpStatus.SC_OK) {
+                useableIp++;
             }
+            printInfo();
         } catch (Exception e) {
             System.out.println(e);
         }
-
-
     }
 
     public void ipListDownloadTest(){
@@ -76,20 +75,20 @@ public class IpTest {
 
     public void printInfo() {
         DecimalFormat df = new DecimalFormat("#.0");
-        String rate = df.format(Main.usebleSumOfIp / Main.SumOfIp * 100);
+        String rate = df.format(useableIp / ipCount * 100);
         System.out.println("\n\n**********************************************************************\n"
                 + "Current ip is : " + ip + " || Port is: " + port + " || Useful rate is: "
-                + rate + "%" + " || Useable Sum is: " + Main.usebleSumOfIp
-                + " || Sum is: " + Main.SumOfIp
+                + rate + "%" + " || Useable Sum is: " + useableIp
+                + " || Sum is: " + ipCount
                 + "\n**********************************************************************\n\n");
     }
 
-    public static void showResult() {
+    public void showResult() {
         DecimalFormat df = new DecimalFormat("#.0");
-        String rate = df.format(Main.usebleSumOfIp / Main.SumOfIp * 100);
+        String rate = df.format(useableIp / ipCount * 100);
         System.out.println("\n\n**********************************************************************\n"
                 + " || Useful rate is: " + rate
-                + "%" + "  || Useable Sum is: " + Main.usebleSumOfIp + " || Sum is: " + Main.SumOfIp
+                + "%" + "  || Useable Sum is: " + useableIp + " || Sum is: " + ipCount
                 + "\n**********************************************************************\n\n");
     }
 }

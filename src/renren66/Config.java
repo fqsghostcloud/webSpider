@@ -1,3 +1,4 @@
+/*
 package renren66;
 
 public class Config extends webspider.config.Config {
@@ -12,3 +13,4 @@ public class Config extends webspider.config.Config {
 	}
 		
 }
+*/

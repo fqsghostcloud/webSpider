@@ -22,8 +22,8 @@ import org.apache.http.util.EntityUtils;
 public class DownloadPage {
 
 	public String currentUrl;
+	public int statusCode;
 	private String htmlEntity;
-	private int statusCode;
 	private RequestConfig requestConfig;
 	private Map<String, String> headers;
 	private Map<String, String> proxy;
@@ -56,10 +56,6 @@ public class DownloadPage {
 
 		try {
 			HttpHost httpHost = requestConfig.getProxy();
-			if(httpHost!=null){
-				System.out.println("**Current Proxy: "+httpHost.toString());
-			}
-
 			CloseableHttpResponse response = httpClient.execute(request);
 			statusCode = response.getStatusLine().getStatusCode();
 			HttpEntity entity = response.getEntity();
@@ -69,12 +65,9 @@ public class DownloadPage {
 			System.out.println("**response code is: " + statusCode);
 
 			if (entity != null && statusCode == HttpStatus.SC_OK) {
-				
 				htmlEntity = EntityUtils.toString(entity, "utf-8");
 				return htmlEntity;
-				
 			}
-			return null;
 
 		} catch (SocketTimeoutException e) {
 			// TODO: handle exception
@@ -106,9 +99,8 @@ public class DownloadPage {
 		finally {
 			request.releaseConnection();
 		}
-		
 		return null;
-
 	}
+
 
 }

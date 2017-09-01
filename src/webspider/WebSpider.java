@@ -3,8 +3,6 @@ package webspider;
 import webspider.config.Config;
 import webspider.downloadpage.DownloadPage;
 import webspider.iptest.IpTest;
-import webspider.parsepage.ParseIp;
-
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +37,7 @@ public abstract class WebSpider{
         }
         IpTest ipTest = new IpTest(proxyList);
         ipTest.ipListDownloadTest();
+        ipTest.showResult();
     }
 
     public void run(){

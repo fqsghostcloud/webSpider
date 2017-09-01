@@ -1,3 +1,4 @@
+/*
 package renren66;
 
 import org.apache.http.client.config.RequestConfig;
@@ -34,3 +35,4 @@ public class Test {
 	}
 
 }
+*/

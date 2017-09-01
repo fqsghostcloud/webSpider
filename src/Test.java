@@ -47,8 +47,6 @@ public class Test {
 
         System.out.println("Main End--------------------------------------------------------? " + Thread.currentThread().isAlive());
 
-
-
     }
 
     public void testThread() {
@@ -62,8 +60,6 @@ public class Test {
 
         @Override
         public void run() {
-
-
             while (true) {
                 try {
                     Thread.sleep(5000);

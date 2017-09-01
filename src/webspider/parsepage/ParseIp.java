@@ -19,8 +19,6 @@ import java.util.Map;
 public class ParseIp {
     private Document htmlDoc;
     private List<Map<String, String>> proxyList = new LinkedList<>();
-
-
     public ParseIp(){
 
     }
@@ -65,7 +63,7 @@ public class ParseIp {
                         proxy.put("ip",proxyString[0]);
                         proxy.put("port",proxyString[1]);
                         proxyList.add(proxy);
-                    }catch (NullPointerException e){
+                    }catch (ArrayIndexOutOfBoundsException e){
                         e.printStackTrace();
                         System.out.println("** Current ip:" + item.childNode(i).toString());
                     }
@@ -74,13 +72,4 @@ public class ParseIp {
         }
         return proxyList;
     }
-
-    //解析httpBin.org获取本地外网真实Ip
-    /*public Map<String,String> getRealIp(String jsonString){
-        JSONObject jsonObject = JSON.parseObject(jsonString);
-        Map<String, String> localProxy = new HashMap<>();//本地Ip和Port
-        localProxy.put("ip",jsonObject.getString("origin"));
-        localProxy.put("port","1080");//本机默认端口号；
-        return localProxy;
-    }*/
 }

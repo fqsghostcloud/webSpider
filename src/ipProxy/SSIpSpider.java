@@ -23,7 +23,8 @@ public class SSIpSpider extends WebSpider {
     }
 
     public static void main(String[] args){
-        SSIpSpider ssIpSpider = new SSIpSpider("http://www.66ip.cn/nmtq.php?isp=0&anonymoustype=4&start=&ports=&export=&ipaddress=&area=0&proxytype=2&api=66ip&getnum=",10);
+        int ipCnt = 5;
+        SSIpSpider ssIpSpider = new SSIpSpider("http://www.66ip.cn/nmtq.php?isp=0&anonymoustype=4&start=&ports=&export=&ipaddress=&area=0&proxytype=2&api=66ip&getnum="+ipCnt, ipCnt);
         ssIpSpider.run();
     }
 }
