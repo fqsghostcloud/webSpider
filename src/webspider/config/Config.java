@@ -2,8 +2,12 @@ package webspider.config;
 
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
+import org.apache.http.HttpHost;
 import org.apache.http.ParseException;
+import org.apache.http.client.config.RequestConfig;
 import redis.clients.jedis.*;
+import webspider.downloadpage.DownloadPage;
+import webspider.parsepage.ParseIp;
 
 import java.util.*;
 
@@ -18,7 +22,8 @@ public class Config {
 	public int socketTimeout;
 	public int connectTimeout;
 	public Map<String, String> headers = new HashMap<>();
-	public static Jedis jedis;
+	public RequestConfig requestConfig;
+	public static List<Map<String,String>> proxyList;
 
 
 
@@ -27,20 +32,39 @@ public class Config {
 	public Config() {
 		// spider http config
 		this.redirecAllowed = true;
-		this.socketTimeout = 10000;
-		this.connectTimeout = 10000;
+		this.socketTimeout = 5000;
+		this.connectTimeout = 5000;
 		//设置http header
 		headers.put("User-Agent",getRandomUserAgent());
 		headers.put("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
 		headers.put("Accept-Language","en-US,en;q=0.5");
 		headers.put("Connection","keep-alive");
 		headers.put("Accept-Encoding", "deflate");
-		//redis config
-		/*jedis = new Jedis("localhost");
-		System.out.println("****************************************");
-		System.out.println("reids connection is: " + jedis.ping() );*/
+
+		/*if(proxyList!=null){
+			this.ip = proxyList.
+			HttpHost httpHost = new HttpHost("127.0.0.1", 1080);
+			requestConfig = RequestConfig.custom().setConnectTimeout(connectTimeout).setConnectionRequestTimeout(connectTimeout)
+					.setCircularRedirectsAllowed(redirecAllowed).setProxy(httpHost).build();
+
+		}*/
+		requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectTimeout).setConnectTimeout(connectTimeout)
+				.setCircularRedirectsAllowed(redirecAllowed).build();
+
 		
 	}
+     // 获取本地Ip
+	/*public Map<String, String> getLocalProxy(){
+		String httpBinUrl = "http://httpbin.org/ip";
+		RequestConfig requestConfig = RequestConfig.custom().setCircularRedirectsAllowed(false).setConnectionRequestTimeout(this.connectTimeout)
+				.setConnectTimeout(this.connectTimeout).build();
+		DownloadPage downloadPage = new DownloadPage(httpBinUrl,this.headers, requestConfig);
+		String htmlContent =  downloadPage.DownloadByGetMethod();
+
+		ParseIp parseIp = new ParseIp();
+		Map<String,String> localProxy = parseIp.getRealIp(htmlContent);
+		return localProxy;
+	}*/
 
 
 	//获取随机User-Agetn

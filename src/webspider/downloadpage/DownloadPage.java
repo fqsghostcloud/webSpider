@@ -6,16 +6,14 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpStatus;
-import org.apache.http.ParseException;
+import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
+import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
@@ -23,18 +21,19 @@ import org.apache.http.util.EntityUtils;
 
 public class DownloadPage {
 
-	private String currentUrl;
+	public String currentUrl;
 	private String htmlEntity;
 	private int statusCode;
-	private RequestConfig requestConfigTimeout;
+	private RequestConfig requestConfig;
 	private Map<String, String> headers;
-	
+	private Map<String, String> proxy;
 	private CloseableHttpClient httpClient = HttpClients.createDefault();
-	
-	public DownloadPage(String currentUrl, Map<String,String> headers, RequestConfig requestConfigTimeout) {
+
+
+	public DownloadPage(String currentUrl, Map<String,String> headers, RequestConfig requestConfig){
 		this.currentUrl = currentUrl;
 		this.headers = headers;
-		this.requestConfigTimeout = requestConfigTimeout;
+		this.requestConfig = requestConfig;
 	}
 
 	public DownloadPage() {
@@ -47,7 +46,7 @@ public class DownloadPage {
 	public String DownloadByGetMethod() {
 
 		HttpGet request = new HttpGet(currentUrl);
-		request.setConfig(requestConfigTimeout);
+		request.setConfig(requestConfig);
 		//设置http header
 		if(headers!=null && headers.size()>0){
 			for(String key: headers.keySet()){
@@ -56,6 +55,11 @@ public class DownloadPage {
 		}
 
 		try {
+			HttpHost httpHost = requestConfig.getProxy();
+			if(httpHost!=null){
+				System.out.println("**Current Proxy: "+httpHost.toString());
+			}
+
 			CloseableHttpResponse response = httpClient.execute(request);
 			statusCode = response.getStatusLine().getStatusCode();
 			HttpEntity entity = response.getEntity();
@@ -69,20 +73,21 @@ public class DownloadPage {
 				htmlEntity = EntityUtils.toString(entity, "utf-8");
 				return htmlEntity;
 				
-			} 
+			}
+			return null;
 
 		} catch (SocketTimeoutException e) {
 			// TODO: handle exception
 			//e.printStackTrace();
-			System.out.println("URL:"+this.currentUrl+"-- SocketTimeout");
+			System.out.println("URL:"+this.currentUrl+" --SocketTimeout");
 		} catch (ConnectTimeoutException e) {
 			// TODO: handle exception
 			//e.printStackTrace();
-			System.out.println("URL:"+this.currentUrl+"-- ConnectTimeout" );
+			System.out.println("URL:"+this.currentUrl+" --ConnectTimeout" );
 		} catch (HttpHostConnectException e) {
 			// TODO: handle exception
 			//e.printStackTrace();
-			System.out.println("URL:"+this.currentUrl+"-- HttpHostConnectException" );
+			System.out.println("URL:"+this.currentUrl+" --HttpHostConnectException" );
 		}
 		catch (ClientProtocolException e) {
 			// TODO: handle exception

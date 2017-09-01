@@ -18,23 +18,18 @@ public class IpTest {
     private String ip;
     private int port;
     private String testUrl = "http://www.renren66.com/";
-//    private  String testUrl = "http://www.baidu.com";
+    //    private  String testUrl = "http://www.baidu.com";
     private List<Map<String, String>> proxyList;
 
 
     public IpTest(String ip, String port) {
         this.ip = ip;
         setPort(port);
-        ipDownloadTest();
     }
 
     public IpTest(List<Map<String, String>> proxyList) {
         this.proxyList = proxyList;
-        for (Map<String, String> proxy : proxyList) {
-            this.ip = proxy.get("ip");
-            setPort(proxy.get("port"));//端口超过65535之后的处理？？？？？？？？？？？？？？？？
-            ipDownloadTest();
-        }
+
     }
 
 
@@ -50,19 +45,32 @@ public class IpTest {
     public void ipDownloadTest() {
 //        boolean status = false;
         Main.SumOfIp++;
-        HttpHost proxy = new HttpHost(ip, port);
-        printInfo();
-        Config config = new Config();
-        RequestConfig requestConfigTimeout = RequestConfig.custom().setCircularRedirectsAllowed(config.redirecAllowed)
-                .setSocketTimeout(config.socketTimeout).setConnectTimeout(config.connectTimeout).setProxy(proxy).build();
+        //爬取的Ip或者Port可能格式错误
+        try {
+            HttpHost proxy = new HttpHost(ip, port);
+            printInfo();
+            Config config = new Config();
+            RequestConfig requestConfigTimeout = RequestConfig.custom().setCircularRedirectsAllowed(config.redirecAllowed)
+                    .setSocketTimeout(config.socketTimeout).setConnectTimeout(config.connectTimeout).setProxy(proxy).build();
 
-        DownloadPage downloadPage = new DownloadPage(testUrl, config.headers, requestConfigTimeout);
+            DownloadPage downloadPage = new DownloadPage(testUrl, config.headers, requestConfigTimeout);
 
-        if (downloadPage.DownloadByGetMethod() != null) {
-//            status = true;
-            Main.usebleSumOfIp++;
+            if (downloadPage.DownloadByGetMethod() != null) {
+                Main.usebleSumOfIp++;
+            }
+        } catch (Exception e) {
+            System.out.println(e);
         }
-//        return status;
+
+
+    }
+
+    public void ipListDownloadTest(){
+        for (Map<String, String> proxy : proxyList) {
+            this.ip = proxy.get("ip");
+            setPort(proxy.get("port"));
+            ipDownloadTest();
+        }
     }
 
 
@@ -76,7 +84,7 @@ public class IpTest {
                 + "\n**********************************************************************\n\n");
     }
 
-    public static void printresult() {
+    public static void showResult() {
         DecimalFormat df = new DecimalFormat("#.0");
         String rate = df.format(Main.usebleSumOfIp / Main.SumOfIp * 100);
         System.out.println("\n\n**********************************************************************\n"

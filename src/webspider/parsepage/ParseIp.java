@@ -1,5 +1,8 @@
 package webspider.parsepage;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,19 +18,16 @@ import java.util.Map;
  */
 public class ParseIp {
     private Document htmlDoc;
-    private String htmlContent;
     private List<Map<String, String>> proxyList = new LinkedList<>();
 
-    public ParseIp(String htmlContent) {
-        htmlDoc = Jsoup.parse(htmlContent);
-    }
 
     public ParseIp(){
 
     }
 
     //解析西刺代理
-    public List getXiCiIpProxy() {
+    public List getXiCiIpProxy(String htmlContent) {
+        htmlDoc = Jsoup.parse(htmlContent);
         Elements trItems = htmlDoc.getElementsByTag("tr");
         int count = 0;
         int removeIndex = 1;//标记第一次循环获得的tr
@@ -61,12 +61,26 @@ public class ParseIp {
                 Map<String, String> proxy = new HashMap<>();
                 if(i%2==0){
                     String[] proxyString = item.childNode(i).toString().trim().split(":");  //去空格
-                    proxy.put("ip",proxyString[0]);
-                    proxy.put("port",proxyString[1]);
-                    proxyList.add(proxy);
+                    try{
+                        proxy.put("ip",proxyString[0]);
+                        proxy.put("port",proxyString[1]);
+                        proxyList.add(proxy);
+                    }catch (NullPointerException e){
+                        e.printStackTrace();
+                        System.out.println("** Current ip:" + item.childNode(i).toString());
+                    }
                 }
             }
         }
         return proxyList;
     }
+
+    //解析httpBin.org获取本地外网真实Ip
+    /*public Map<String,String> getRealIp(String jsonString){
+        JSONObject jsonObject = JSON.parseObject(jsonString);
+        Map<String, String> localProxy = new HashMap<>();//本地Ip和Port
+        localProxy.put("ip",jsonObject.getString("origin"));
+        localProxy.put("port","1080");//本机默认端口号；
+        return localProxy;
+    }*/
 }
