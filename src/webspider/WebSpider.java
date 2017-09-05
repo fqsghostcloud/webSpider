@@ -1,15 +1,12 @@
 package webspider;
 
-import webspider.config.Config;
-import webspider.downloadpage.DownloadPage;
-import webspider.iptest.IpTest;
 import java.util.List;
 import java.util.Map;
 
 
 
 
-public abstract class WebSpider{
+public abstract class WebSpider implements Runnable{
     protected final String requestUrl;
     protected String pageString;
     protected List<Map<String, String>> proxyList;
@@ -31,20 +28,24 @@ public abstract class WebSpider{
 
     public abstract List parseIp();
 
-    public void ipTest(){
+    //验证Ip是否可用
+    public void verificateIp(){
         if(proxyList == null){
             System.out.println("**** Proxy List is Null! ****");
+            return;
         }
-        IpTest ipTest = new IpTest(proxyList);
-        ipTest.ipListDownloadTest();
-        ipTest.showResult();
+        VerificateIp verification = new VerificateIp(proxyList, Config.IQIYI);
+        verification.ipListDownloadTest();
+        verification.showResult();
     }
 
+    @Override
     public void run(){
+        System.out.println("开始运行爬虫! request: " + requestUrl);   //Test
         pageString = downloadPage();
         if (pageString != null) {
             proxyList = parseIp();
-            ipTest();
+            verificateIp();
         } else {
             System.out.println("\n--------------------------------------------"
                     + "Page String from" + getDomainName() + "is Null");

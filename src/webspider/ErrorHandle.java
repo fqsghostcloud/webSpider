@@ -1,4 +1,4 @@
-package webspider.error;
+package webspider;
 
 public class ErrorHandle {
 	

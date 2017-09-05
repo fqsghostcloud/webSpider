@@ -1,6 +1,6 @@
 package ipProxy;
 import webspider.WebSpider;
-import webspider.parsepage.ParseIp;
+import webspider.ParseIp;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ public class SSIpSpider extends WebSpider {
         super(new Config(), requestUrl);
         this.ipCnt = ipCnt;
     }
+
 
     @Override
     public List parseIp() {

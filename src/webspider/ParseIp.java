@@ -1,4 +1,4 @@
-package webspider.parsepage;
+package webspider;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

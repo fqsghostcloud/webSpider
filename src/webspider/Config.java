@@ -1,4 +1,4 @@
-package webspider.config;
+package webspider;
 
 import org.apache.http.client.config.RequestConfig;
 import java.util.*;
@@ -8,17 +8,21 @@ public class Config {
 
 	public String protocol;
 	public boolean redirecAllowed;
-	public int connectTimeout;
+	public int timeOut;
 	public Map<String, String> headers = new HashMap<>();
 	public RequestConfig requestConfig;
 
 
-	
+	public static final String IQIYI = "http://www.iqiyi.com/";
+	public static final String RENRNE66 = "http://www.renren66.com/";
+	public static final String YOUKU = "http://youku.com/";
+
+
 	
 	public Config() {
 		// spider http config
 		redirecAllowed = true;
-		connectTimeout = 5000;
+		timeOut = 5000;
 		//设置http header
 		headers.put("User-Agent",getRandomUserAgent());
 		headers.put("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8");
@@ -26,8 +30,8 @@ public class Config {
 		headers.put("Connection","keep-alive");
 		headers.put("Accept-Encoding", "deflate");
 
-		requestConfig = RequestConfig.custom().setConnectionRequestTimeout(connectTimeout).setConnectTimeout(connectTimeout)
-				.setCircularRedirectsAllowed(redirecAllowed).build();
+		requestConfig = RequestConfig.custom().setConnectionRequestTimeout(timeOut).setSocketTimeout(timeOut)
+				.setConnectTimeout(timeOut).build();
 	}
 
 

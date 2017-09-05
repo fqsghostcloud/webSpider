@@ -1,6 +1,6 @@
 package ipProxy;
 import webspider.WebSpider;
-import webspider.parsepage.ParseIp;
+import webspider.ParseIp;
 
 import java.util.List;
 
@@ -15,6 +15,7 @@ public class XiCiDaiLiSpider extends WebSpider{
 
     @Override
     public List parseIp() {
+        System.out.println("\nParse ip ...");
         ParseIp parseIp = new ParseIp();
         proxyList = parseIp.getXiCiIpProxy(pageString);
         return proxyList;
