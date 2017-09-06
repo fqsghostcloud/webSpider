@@ -13,12 +13,6 @@ public class Config {
 	public RequestConfig requestConfig;
 
 
-	public static final String IQIYI = "http://www.iqiyi.com/";
-	public static final String RENRNE66 = "http://www.renren66.com/";
-	public static final String YOUKU = "http://youku.com/";
-
-
-	
 	public Config() {
 		// spider http config
 		redirecAllowed = true;

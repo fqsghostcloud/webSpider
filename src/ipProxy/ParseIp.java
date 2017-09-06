@@ -1,4 +1,4 @@
-package webspider;
+package ipProxy;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -54,21 +54,25 @@ public class ParseIp {
     public List getSixSixIpProxy(String htmlContent ,int ipSum){
         htmlDoc = Jsoup.parse(htmlContent);
         Elements items = htmlDoc.getElementsByTag("body");
-        for(Element item: items){
-            for(int i = 0; i<2*ipSum; i++){
-                Map<String, String> proxy = new HashMap<>();
-                if(i%2==0){
-                    String[] proxyString = item.childNode(i).toString().trim().split(":");  //去空格
-                    try{
-                        proxy.put("ip",proxyString[0]);
-                        proxy.put("port",proxyString[1]);
-                        proxyList.add(proxy);
-                    }catch (ArrayIndexOutOfBoundsException e){
-                        e.printStackTrace();
-                        System.out.println("** Current ip:" + item.childNode(i).toString());
+        if(items != null){
+            for(Element item: items){
+                for(int i = 0; i<2*ipSum; i++){
+                    Map<String, String> proxy = new HashMap<>();
+                    if(i%2==0){
+                        String[] proxyString = item.childNode(i).toString().trim().split(":");  //去空格
+                        try{
+                            proxy.put("ip",proxyString[0]);
+                            proxy.put("port",proxyString[1]);
+                            proxyList.add(proxy);
+                        }catch (ArrayIndexOutOfBoundsException e){
+                            e.printStackTrace();
+                            System.out.println("** Current ip:" + item.childNode(i).toString());
+                        }
                     }
                 }
             }
+        }else {
+            System.out.println("** Parse SixSixProxy Fild! body tag is Null");
         }
         return proxyList;
     }
