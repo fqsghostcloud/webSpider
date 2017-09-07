@@ -127,7 +127,7 @@ public class VerificateIp implements Runnable{
 
     @Override
     public void run() {
-        System.out.println("启动消费者线程！");
+        System.out.println("启动消费者线程！-------------------------------------- name:" + Thread.currentThread().getName());
         boolean isRunning = true;
 
         try {
